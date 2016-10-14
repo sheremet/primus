@@ -4123,7 +4123,17 @@ module.exports = function parseuri(str) {
 		'decode': wtf8decode
 	};
 
-	if (freeExports && !freeExports.nodeType) {
+	// Some AMD build optimizers, like r.js, check for specific condition patterns
+	// like the following:
+	if (
+		typeof define == 'function' &&
+		typeof define.amd == 'object' &&
+		define.amd
+	) {
+		define(function() {
+			return wtf8;
+		});
+	}	else if (freeExports && !freeExports.nodeType) {
 		if (freeModule) { // in Node.js or RingoJS v0.8.0+
 			freeModule.exports = wtf8;
 		} else { // in Narwhal or RingoJS v0.7.0-
